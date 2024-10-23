@@ -17,7 +17,9 @@ public class BuildMenu : MonoBehaviour
     public void SpawnBuilding()
     {
         // Instantialte Unit
-       instance = Instantiate(objectToSpawn);
+        instance = Instantiate(objectToSpawn);
+        // Disable Collider
+        instance.GetComponentInChildren<Collider>().enabled = false;
     }
 
     private void Update()
@@ -29,16 +31,25 @@ public class BuildMenu : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                instance.transform.position = hit.point;
+                if(hit.transform.tag == "Ground")
+                {
+                    instance.transform.position = hit.point;
+                } 
             }
 
             if (Input.GetButtonDown("Fire1"))
             {
+                // Enable Collider
+                instance.GetComponentInChildren<Collider>().enabled = true;
                 // Place Building
                 instance = null;
             }
         }
 
-        
+        // Bauprozess abbrechen
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Destroy(instance);
+        }
     }
 }
