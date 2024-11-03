@@ -9,19 +9,46 @@ public class BuildMenu : MonoBehaviour
     /// </summary>
     public GameObject objectToSpawn;
 
+    /// <summary>
+    /// Zeiger auf die zu erstellende Einheit
+    /// /// </summary>
+    public GameObject unitToSpawn;
+
     public GameObject instance;
+    public GameObject tempUnit, tempBase;
 
     /// <summary>
-    /// Logik zum erzeugen eines Gameobjekt
+    /// Logik zum erzeugen eines Base-Gebäudes
     /// </summary>
     public void SpawnBuilding()
     {
-        // Instantialte Unit
+        // Instantialte Building
         instance = Instantiate(objectToSpawn);
         // Disable Collider
         instance.GetComponentInChildren<Collider>().enabled = false;
     }
 
+    /// <summary>
+    /// Logik zum erzeugen einer Einheit
+    /// </summary>
+    public void SpawnUnit()
+    {
+        if(GameObject.FindGameObjectWithTag("Base") != null)
+        {
+            // Instatiate Unit
+            tempUnit = Instantiate(unitToSpawn);
+            // Search for Base
+            tempBase = GameObject.FindGameObjectWithTag("Base");
+            // Ändere Position
+            tempUnit.transform.position =
+                tempBase.transform.position + new Vector3(2, 0, 2);
+        }
+        
+    }
+
+    /// <summary>
+    /// Unity Methode
+    /// </summary>
     private void Update()
     {
         if(instance != null)
